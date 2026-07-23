@@ -1310,29 +1310,35 @@ Everything happens automatically.
 # CI Pipeline Architecture
 
 ```mermaid
-flowchart LR
+flowchart TD
 
-Developer
+A([Developer Push])
 
---> Push
+B([GitHub Repository])
 
---> GitHub
+C([Workflow Trigger])
 
---> Workflow
+D([Checkout Code])
 
---> Checkout
+E([Setup Java])
 
---> Setup Java
+F([Compile])
 
---> Maven Build
+G([Run Tests])
 
---> Unit Test
+H([Package])
 
---> Package
+I([Success])
 
---> Success
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
+H --> I
 ```
-
 ---
 
 # Complete Java Maven Workflow
@@ -1456,36 +1462,25 @@ mvn test
 
 ---
 
-# Maven Build Flow
+## Maven Build Flow
 
 ```mermaid
 flowchart TD
 
-Checkout
+A([Checkout Repository])
+B([Setup Java 17])
+C([Download Maven Dependencies])
+D([Compile Source Code])
+E([Execute Unit Tests])
+F([Generate JAR/WAR])
+G([BUILD SUCCESS])
 
--->
-
-Install Java
-
--->
-
-Download Dependencies
-
--->
-
-Compile
-
--->
-
-Test
-
--->
-
-Package
-
--->
-
-Success
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
 ```
 
 ---
@@ -1702,35 +1697,29 @@ Advantages:
 
 ---
 
-# Multi-Job Architecture
+## Multi-Job Architecture
 
 ```mermaid
-flowchart LR
+flowchart TD
 
-Developer
+A([Developer Push])
 
--->
+B([Workflow Trigger])
 
-Push
+C([Build Job])
 
--->
+D([Test Job])
 
-Workflow
+E([Deploy Job])
 
--->
+F([Production])
 
-Build Job
-
--->
-
-Test Job
-
--->
-
-Deploy Job
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
 ```
-
----
 
 # Example Workflow
 
@@ -2173,34 +2162,27 @@ Download Anytime
 
 ---
 
-# Artifact Workflow
+## Artifact Workflow
 
 ```mermaid
 flowchart LR
 
-Developer
+subgraph Workflow
+A[Developer Push]
+B[Workflow Trigger]
+C[Build Job]
+D[Generate Artifact]
+end
 
--->
+subgraph Storage
+E[(GitHub Artifact Storage)]
+end
 
-Push
-
--->
-
-Workflow
-
--->
-
-Build
-
--->
-
-Artifact
-
--->
-
-GitHub Storage
+A --> B
+B --> C
+C --> D
+D --> E
 ```
-
 ---
 
 # Upload Artifact Example
@@ -2239,24 +2221,24 @@ jobs:
 
 ---
 
-# Artifact Upload Flow
+## Artifact Upload Flow
 
 ```mermaid
-flowchart TD
+flowchart LR
 
-Build
+subgraph Build
+A[Build Application]
+B[Output Folder]
+C[Upload Artifact]
+end
 
--->
+subgraph Storage
+D[(GitHub Artifact Storage)]
+end
 
-Output Folder
-
--->
-
-Upload Artifact
-
--->
-
-GitHub Artifact Storage
+A --> B
+B --> C
+C --> D
 ```
 
 ---
@@ -2277,34 +2259,32 @@ Example:
 
 ---
 
-# Complete Build Flow
+## Complete Build Flow
 
 ```mermaid
 flowchart LR
 
-Checkout
+subgraph Build
+A[Checkout]
+B[Compile]
+C[Test]
+D[Package]
+end
 
--->
+subgraph Artifact
+E[(Upload Artifact)]
+end
 
-Build
+subgraph Deployment
+F[Deploy]
+end
 
--->
-
-Test
-
--->
-
-Package
-
--->
-
-Upload Artifact
-
--->
-
-Deploy
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
 ```
-
 ---
 
 # Real-world Example
@@ -2343,70 +2323,48 @@ This saves build time.
 
 ---
 
-# Enterprise CI Pipeline
-
-Large companies rarely use a single job.
-
-A production pipeline may look like:
+## Enterprise CI Pipeline
 
 ```mermaid
 flowchart LR
 
-Developer
+subgraph Source
+A[Developer]
+B[GitHub Repository]
+end
 
--->
+subgraph CI
+C[Build]
+D[Unit Tests]
+E[Integration Tests]
+F[SonarQube]
+G[Security Scan]
+H[Package]
+I[Upload Artifact]
+end
 
-Push
+subgraph CD
+J[Docker Build]
+K[Push Image]
+L[Deploy Dev]
+M[Deploy QA]
+N[Deploy Production]
+end
 
--->
-
-Build
-
--->
-
-Unit Test
-
--->
-
-Integration Test
-
--->
-
-SonarQube
-
--->
-
-Security Scan
-
--->
-
-Package
-
--->
-
-Upload Artifact
-
--->
-
-Docker Build
-
--->
-
-Push Image
-
--->
-
-Deploy Dev
-
--->
-
-Deploy QA
-
--->
-
-Deploy Production
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
+H --> I
+I --> J
+J --> K
+K --> L
+L --> M
+M --> N
 ```
-
 ---
 
 # Enterprise Workflow Advantages
