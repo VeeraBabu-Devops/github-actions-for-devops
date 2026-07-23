@@ -258,3 +258,405 @@ We'll cover:
 - Branch Filters
 - Multiple Branches
 - Tag Events
+
+---
+
+# 🚀 Push Event
+
+The **Push Event** is the most commonly used trigger in GitHub Actions.
+
+Whenever a developer pushes code to a repository, GitHub automatically starts the workflow.
+
+---
+
+## Push Event Architecture
+
+```mermaid
+flowchart LR
+
+A([Developer])
+
+B([Git Push])
+
+C([GitHub Repository])
+
+D([Push Event])
+
+E([Workflow])
+
+F([Runner])
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+```
+
+---
+
+## Basic Push Trigger
+
+```yaml
+on:
+  push:
+```
+
+This workflow executes whenever code is pushed to any branch.
+
+---
+
+## Real-world Example
+
+Developer pushes new code.
+
+↓
+
+GitHub detects Push Event.
+
+↓
+
+Workflow starts automatically.
+
+↓
+
+Application builds.
+
+↓
+
+Tests execute.
+
+↓
+
+Deployment begins.
+
+---
+
+# Push on Specific Branch
+
+In production environments, workflows should not execute for every branch.
+
+Instead, trigger workflows only on important branches.
+
+Example:
+
+```yaml
+on:
+
+  push:
+
+    branches:
+
+      - main
+```
+
+Only pushes to the **main** branch trigger the workflow.
+
+---
+
+# Multiple Branches
+
+You can monitor multiple branches.
+
+```yaml
+on:
+
+  push:
+
+    branches:
+
+      - main
+
+      - develop
+
+      - release/**
+```
+
+---
+
+## Branch Flow
+
+```mermaid
+flowchart TD
+
+A([Developer Push])
+
+B{Branch?}
+
+C([main])
+
+D([develop])
+
+E([release/*])
+
+F([Workflow])
+
+A --> B
+B --> C
+B --> D
+B --> E
+
+C --> F
+D --> F
+E --> F
+```
+
+---
+
+## Real-world Example
+
+Repository contains:
+
+```
+main
+
+develop
+
+feature/login
+
+feature/payment
+
+release/v1
+```
+
+Workflow executes only on:
+
+- main
+- develop
+- release/*
+
+Feature branches are ignored.
+
+---
+
+# Ignoring Branches
+
+Sometimes certain branches should never trigger workflows.
+
+Example:
+
+```yaml
+on:
+
+  push:
+
+    branches-ignore:
+
+      - experimental
+
+      - test/*
+```
+
+---
+
+# Tag Events
+
+GitHub can trigger workflows whenever tags are pushed.
+
+Example:
+
+```yaml
+on:
+
+  push:
+
+    tags:
+
+      - v*
+```
+
+---
+
+## Tag Workflow
+
+```
+Developer
+
+↓
+
+Create Tag
+
+↓
+
+Push Tag
+
+↓
+
+Workflow Executes
+```
+
+---
+
+# Path Filters
+
+Sometimes only specific files should trigger workflows.
+
+Example:
+
+```yaml
+on:
+
+  push:
+
+    paths:
+
+      - src/**
+
+      - pom.xml
+```
+
+Workflow executes only when:
+
+- Source code changes
+- pom.xml changes
+
+---
+
+## Ignore Paths
+
+Example:
+
+```yaml
+on:
+
+  push:
+
+    paths-ignore:
+
+      - README.md
+
+      - docs/**
+```
+
+Documentation changes will not trigger the workflow.
+
+---
+
+## Path Filter Architecture
+
+```mermaid
+flowchart LR
+
+A([Developer Push])
+
+B([Files Changed])
+
+C{Matches Path Filter?}
+
+D([Run Workflow])
+
+E([Ignore])
+
+A --> B
+B --> C
+C -->|Yes| D
+C -->|No| E
+```
+
+---
+
+# Branch vs Path Filter
+
+| Branch Filter | Path Filter |
+|--------------|-------------|
+| Filters branches | Filters files |
+| Example: main | Example: src/** |
+| Used for environments | Used for selective builds |
+
+---
+
+# Production Strategy
+
+Large organizations commonly use:
+
+| Branch | Workflow |
+|---------|----------|
+| feature/* | Build Only |
+| develop | Build + Unit Test |
+| release/* | Full QA Pipeline |
+| main | Production Deployment |
+
+---
+
+# Best Practices
+
+✅ Trigger workflows only on required branches
+
+✅ Ignore documentation updates
+
+✅ Use path filters to reduce unnecessary workflow runs
+
+✅ Separate development and production workflows
+
+---
+
+# Common Mistakes
+
+❌ Triggering workflows on every branch
+
+❌ No branch filters
+
+❌ No path filters
+
+❌ Running expensive deployments unnecessarily
+
+---
+
+# Interview Tip
+
+### Question
+
+How do you trigger a workflow only for the `main` branch?
+
+### Expected Answer
+
+```yaml
+on:
+
+  push:
+
+    branches:
+
+      - main
+```
+
+---
+
+# Hands-on Exercise
+
+Create a workflow that:
+
+- Executes only on the `main` branch.
+- Prints:
+  - Current date
+  - Hostname
+  - Current user
+
+Push code to:
+
+- `main`
+- `develop`
+
+Observe which branch triggers the workflow.
+
+---
+
+# Key Takeaways
+
+- `push` is the most commonly used event.
+- Branch filters control which branches trigger workflows.
+- Path filters control which files trigger workflows.
+- Tag events support release automation.
+
+---
+
+# ➡️ Next (Part 3)
+
+We'll cover:
+
+- Pull Request Event
+- Manual Trigger
+- Schedule Event
+- Release Event
+- Multiple Events
+- Production Trigger Strategies
