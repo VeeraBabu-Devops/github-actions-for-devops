@@ -1086,3 +1086,420 @@ We'll complete Chapter 4 with:
 - Event Troubleshooting
 - Chapter Summary
 - 30 Interview Questions
+---
+
+# 🏢 Production Event Strategy
+
+Large organizations use different events for different environments.
+
+A single workflow is rarely used for every deployment stage.
+
+Instead, workflows are designed based on the software delivery lifecycle.
+
+---
+
+## Enterprise Workflow Strategy
+
+```mermaid
+flowchart TD
+
+A([Developer Push])
+
+B([Feature Branch])
+
+C([Pull Request])
+
+D([Build & Test])
+
+E([Merge])
+
+F([Main Branch])
+
+G([Production Deployment])
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+```
+
+---
+
+## Recommended Event Strategy
+
+| Event | Environment | Purpose |
+|--------|-------------|---------|
+| push | Feature Branch | Build |
+| pull_request | Main Branch | Validation |
+| workflow_dispatch | Production | Manual Deployment |
+| schedule | Production | Backup / Maintenance |
+| release | Production | Software Release |
+
+---
+
+## Example Enterprise Workflow
+
+Feature Branch
+
+↓
+
+Push
+
+↓
+
+CI Pipeline
+
+↓
+
+Pull Request
+
+↓
+
+QA Validation
+
+↓
+
+Merge
+
+↓
+
+Manual Deployment
+
+↓
+
+Production
+
+---
+
+# 📌 Best Practices
+
+## Use Branch Protection
+
+Protect important branches.
+
+Examples:
+
+- main
+
+- release
+
+---
+
+## Use Pull Requests
+
+Avoid direct pushes to the production branch.
+
+Always use Pull Requests.
+
+---
+
+## Separate CI and CD
+
+Good
+
+```
+CI
+
+↓
+
+Build
+
+↓
+
+Test
+
+↓
+
+CD
+
+↓
+
+Deploy
+```
+
+Avoid:
+
+```
+Build
+
+↓
+
+Deploy
+
+↓
+
+Test
+```
+
+---
+
+## Use Manual Approval
+
+Production deployments should generally use:
+
+```yaml
+workflow_dispatch
+```
+
+instead of automatic deployment.
+
+---
+
+## Use Branch Filters
+
+Execute production workflows only on:
+
+```yaml
+branches:
+
+- main
+```
+
+---
+
+## Use Path Filters
+
+Avoid unnecessary workflow executions.
+
+Example:
+
+```yaml
+paths:
+
+- src/**
+```
+
+---
+
+# ⚠ Common Mistakes
+
+❌ Deploying on every Push
+
+❌ No Pull Request validation
+
+❌ Running workflows on every branch
+
+❌ Ignoring branch filters
+
+❌ Hardcoding secrets
+
+❌ Running scheduled jobs too frequently
+
+---
+
+# 🛠 Troubleshooting
+
+## Workflow Didn't Run
+
+Check:
+
+- Workflow location
+- YAML syntax
+- Trigger
+- Branch
+- Actions enabled
+
+---
+
+## Push Didn't Trigger Workflow
+
+Verify:
+
+```yaml
+on:
+
+  push:
+```
+
+Also verify:
+
+- Correct branch
+- Workflow committed
+- Repository Actions enabled
+
+---
+
+## Pull Request Didn't Trigger
+
+Check:
+
+```yaml
+pull_request:
+```
+
+Also verify:
+
+- Target branch
+- Pull Request type
+- Repository settings
+
+---
+
+## Schedule Didn't Run
+
+Remember:
+
+Cron uses **UTC timezone**.
+
+---
+
+## Manual Workflow Missing
+
+Check:
+
+```yaml
+workflow_dispatch:
+```
+
+Then verify:
+
+Actions
+
+↓
+
+Run Workflow
+
+---
+
+# 📋 Chapter Summary
+
+In this chapter you learned:
+
+- Workflow Events
+- Push
+- Pull Request
+- Manual Trigger
+- Schedule
+- Release
+- Branch Filters
+- Path Filters
+- Tag Filters
+- Multiple Events
+- Production Strategies
+
+---
+
+# 🎤 Interview Questions
+
+## Beginner
+
+1. What is a GitHub Actions Event?
+
+2. What is Push Event?
+
+3. What is Pull Request Event?
+
+4. What is workflow_dispatch?
+
+5. What is schedule?
+
+---
+
+## Intermediate
+
+6. Difference between Push and Pull Request?
+
+7. Difference between Branch Filter and Path Filter?
+
+8. What is Release Event?
+
+9. What is Cron?
+
+10. What is Multiple Trigger?
+
+---
+
+## Scenario Questions
+
+### Q1
+
+A workflow executes for every branch.
+
+How would you restrict it to **main**?
+
+Expected Answer
+
+```yaml
+branches:
+
+- main
+```
+
+---
+
+### Q2
+
+Production deployment should not happen automatically.
+
+What trigger would you use?
+
+Expected Answer
+
+```yaml
+workflow_dispatch
+```
+
+---
+
+### Q3
+
+Documentation updates should not trigger builds.
+
+Expected Answer
+
+Use:
+
+```yaml
+paths-ignore:
+```
+
+---
+
+# 📝 Hands-on Project
+
+Create a workflow that supports:
+
+- Push
+
+- Pull Request
+
+- Manual Trigger
+
+- Schedule
+
+Configure:
+
+- Branch Filter
+
+- Path Filter
+
+Test all four events.
+
+---
+
+# 🔑 Key Takeaways
+
+- Events determine when workflows execute.
+- Push is used for CI.
+- Pull Request validates code.
+- Manual triggers are ideal for production deployments.
+- Schedule automates recurring tasks.
+- Branch and path filters reduce unnecessary workflow runs.
+- Enterprise pipelines combine multiple events.
+
+---
+
+# 🎯 Chapter Completed
+
+Congratulations!
+
+You have completed **Chapter 04 – Workflow Events**.
+
+Next, we'll create:
+
+- ✅ Cheat Sheet
+- ✅ Interview Handbook
+- ✅ Quiz
+- ✅ Professional Diagrams
