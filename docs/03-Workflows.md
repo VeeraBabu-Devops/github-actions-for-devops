@@ -962,3 +962,327 @@ We'll build **real production workflows**, including:
 - Multi-Job CI Pipeline
 - Artifact Upload
 - Production Workflow Diagram
+
+---
+
+# 6. Building Your First Production Workflow
+
+In previous sections, we learned the structure of a workflow.
+
+Now let's build a real workflow step by step.
+
+---
+
+# Workflow Goal
+
+Whenever a developer pushes code:
+
+- Checkout source code
+- Display system information
+- Build application
+- Complete successfully
+
+---
+
+## Complete Execution Flow
+
+```mermaid
+flowchart LR
+
+A[Developer Push]
+
+--> B[GitHub Repository]
+
+--> C[Workflow Trigger]
+
+--> D[Ubuntu Runner]
+
+--> E[Checkout Repository]
+
+--> F[Display System Information]
+
+--> G[Build Application]
+
+--> H[Workflow Completed]
+```
+
+---
+
+# Step 1 — Create Workflow File
+
+Location:
+
+```text
+.github/workflows/
+```
+
+File:
+
+```text
+build.yml
+```
+
+---
+
+# Step 2 — Complete Workflow
+
+```yaml
+name: Build Application
+
+on:
+  push:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Display Current Directory
+        run: pwd
+
+      - name: Display Files
+        run: ls -la
+
+      - name: Display Date
+        run: date
+
+      - name: Display Hostname
+        run: hostname
+
+      - name: Display Current User
+        run: whoami
+
+      - name: Display Memory
+        run: free -m
+
+      - name: Display Disk Usage
+        run: df -h
+```
+
+---
+
+# Workflow Explanation
+
+## Checkout Repository
+
+```yaml
+- uses: actions/checkout@v4
+```
+
+Downloads the repository into the runner.
+
+Without checkout:
+
+```
+Runner
+
+↓
+
+Empty Folder
+```
+
+With checkout:
+
+```
+Runner
+
+↓
+
+Repository Files
+
+↓
+
+Workflow Can Access Source Code
+```
+
+---
+
+## System Information
+
+```yaml
+run: pwd
+```
+
+Prints the current working directory.
+
+---
+
+```yaml
+run: ls -la
+```
+
+Displays all repository files.
+
+---
+
+```yaml
+run: hostname
+```
+
+Displays the runner hostname.
+
+---
+
+```yaml
+run: whoami
+```
+
+Displays the current user.
+
+---
+
+```yaml
+run: free -m
+```
+
+Displays memory information.
+
+---
+
+```yaml
+run: df -h
+```
+
+Displays disk usage.
+
+---
+
+# Complete Workflow Lifecycle
+
+```mermaid
+flowchart TD
+
+Developer
+
+--> Push
+
+--> GitHub
+
+--> Workflow
+
+--> Runner
+
+--> Checkout
+
+--> Build
+
+--> Success
+```
+
+---
+
+# Real-world Example
+
+Suppose a Java developer pushes new code.
+
+GitHub Actions automatically:
+
+- Downloads source code
+- Displays environment information
+- Installs Java
+- Executes Maven Build
+- Runs Unit Tests
+- Uploads Build Artifact
+
+No manual work is required.
+
+---
+
+# Why Checkout is Important
+
+Many beginners forget this step.
+
+Without:
+
+```yaml
+uses: actions/checkout@v4
+```
+
+The runner cannot access:
+
+- Java Source Code
+- package.json
+- pom.xml
+- Dockerfile
+- Terraform Files
+
+---
+
+# Common Mistakes
+
+❌ Forgetting checkout
+
+❌ Wrong indentation
+
+❌ Wrong trigger
+
+❌ Wrong runner name
+
+❌ Invalid YAML syntax
+
+---
+
+# Best Practices
+
+✅ Use descriptive step names
+
+✅ Keep each step focused
+
+✅ Separate build and deployment
+
+✅ Use official GitHub Actions
+
+---
+
+# Interview Question
+
+## Why is `actions/checkout` required?
+
+### Expected Answer
+
+`actions/checkout` downloads the repository source code into the GitHub Actions runner. Without it, the workflow cannot access project files such as source code, configuration files, or build scripts.
+
+---
+
+# Hands-on Exercise
+
+Create a workflow that:
+
+- Executes on Push
+- Uses checkout
+- Prints:
+  - pwd
+  - hostname
+  - date
+  - whoami
+  - free -m
+  - df -h
+
+Observe the logs in the **Actions** tab after pushing your changes.
+
+---
+
+# Key Takeaways
+
+- `actions/checkout` is usually the first step in a workflow.
+- The runner starts with a clean environment.
+- Each `run` step executes shell commands.
+- System information commands are useful for learning and troubleshooting.
+
+---
+
+# ➡️ Next (Part 4)
+
+We'll build:
+
+- Java Maven CI Pipeline
+- Multiple Jobs
+- Job Dependencies
+- Artifact Upload
+- Production CI Workflow
