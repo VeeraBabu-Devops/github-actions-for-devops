@@ -1,0 +1,19 @@
+# =====================================================
+# Workflow Name : First Workflow
+# Purpose       : Learn the basic structure of GitHub Actions
+# Trigger       : Manual (workflow_dispatch)
+# Runner        : Ubuntu Latest
+# =====================================================
+
+name: First Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Welcome Message
+        run: echo "Welcome to GitHub Actions!"
