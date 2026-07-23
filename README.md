@@ -72,11 +72,11 @@ The following screenshots show successful execution of the workflow examples.
 
 | Workflow | Status |
 |----------|--------|
-| Basic Workflows | ✅ |
-| Workflow Events | ✅ |
-| Job Management | ✅ |
-| Build Pipelines | ✅ |
-| AWS Deployment | ✅ |
+| Basic Workflows | ✅ Success |
+| Workflow Events | ✅ Success |
+| Job Management | ✅ Success |
+| Build Pipelines | ✅ Success |
+| AWS Deployment | ✅ Inprogress |
 
 ## Basic Workflow
 
