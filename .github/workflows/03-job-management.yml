@@ -1,1 +1,46 @@
+# ==============================================================================
+# Workflow Name : Job Management
+# Description   : Demonstrates jobs, needs, and artifacts
+# ==============================================================================
 
+name: Job Management
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: mkdir output
+
+      - run: echo "Build Successful" > output/build.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: output/
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Running Unit Tests"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - run: cat build.txt
+
+      - run: echo "Deploy Successful"
