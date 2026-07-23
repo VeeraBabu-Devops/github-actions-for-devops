@@ -2108,3 +2108,434 @@ We'll learn:
 - Build Outputs
 - Production Artifact Workflow
 - Complete Enterprise CI Pipeline
+
+---
+
+# 10. Uploading Build Artifacts
+
+After building an application, we usually want to save the generated files.
+
+Examples include:
+
+- JAR Files
+- WAR Files
+- ZIP Packages
+- Reports
+- Test Results
+- Coverage Reports
+
+These files are called **Artifacts**.
+
+---
+
+# Why Upload Artifacts?
+
+Without artifacts:
+
+```
+Workflow
+
+↓
+
+Build
+
+↓
+
+Runner Deleted
+
+↓
+
+Build Output Lost
+```
+
+With artifacts:
+
+```
+Workflow
+
+↓
+
+Build
+
+↓
+
+Upload Artifact
+
+↓
+
+GitHub Stores Artifact
+
+↓
+
+Download Anytime
+```
+
+---
+
+# Artifact Workflow
+
+```mermaid
+flowchart LR
+
+Developer
+
+-->
+
+Push
+
+-->
+
+Workflow
+
+-->
+
+Build
+
+-->
+
+Artifact
+
+-->
+
+GitHub Storage
+```
+
+---
+
+# Upload Artifact Example
+
+```yaml
+name: Upload Artifact
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - run: mkdir output
+
+      - run: echo "Hello GitHub Actions" > output/result.txt
+
+      - name: Upload Artifact
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: Build-Output
+
+          path: output/
+```
+
+---
+
+# Artifact Upload Flow
+
+```mermaid
+flowchart TD
+
+Build
+
+-->
+
+Output Folder
+
+-->
+
+Upload Artifact
+
+-->
+
+GitHub Artifact Storage
+```
+
+---
+
+# Download Artifact
+
+Artifacts uploaded by one job can be downloaded in another job.
+
+Example:
+
+```yaml
+- uses: actions/download-artifact@v4
+
+  with:
+
+    name: Build-Output
+```
+
+---
+
+# Complete Build Flow
+
+```mermaid
+flowchart LR
+
+Checkout
+
+-->
+
+Build
+
+-->
+
+Test
+
+-->
+
+Package
+
+-->
+
+Upload Artifact
+
+-->
+
+Deploy
+```
+
+---
+
+# Real-world Example
+
+Suppose your Spring Boot application creates:
+
+```
+target/
+
+app.jar
+```
+
+Instead of rebuilding in every deployment job:
+
+```
+Build
+
+↓
+
+Upload JAR
+
+↓
+
+Deploy Job
+
+↓
+
+Download JAR
+
+↓
+
+Deploy
+```
+
+This saves build time.
+
+---
+
+# Enterprise CI Pipeline
+
+Large companies rarely use a single job.
+
+A production pipeline may look like:
+
+```mermaid
+flowchart LR
+
+Developer
+
+-->
+
+Push
+
+-->
+
+Build
+
+-->
+
+Unit Test
+
+-->
+
+Integration Test
+
+-->
+
+SonarQube
+
+-->
+
+Security Scan
+
+-->
+
+Package
+
+-->
+
+Upload Artifact
+
+-->
+
+Docker Build
+
+-->
+
+Push Image
+
+-->
+
+Deploy Dev
+
+-->
+
+Deploy QA
+
+-->
+
+Deploy Production
+```
+
+---
+
+# Enterprise Workflow Advantages
+
+- Faster deployments
+
+- Better quality
+
+- Security validation
+
+- Easy rollback
+
+- Build once, deploy many
+
+---
+
+# Common Mistakes
+
+❌ Forgetting to upload build output
+
+❌ Uploading unnecessary files
+
+❌ Large artifacts
+
+❌ Wrong artifact path
+
+---
+
+# Best Practices
+
+✅ Upload only required files
+
+✅ Use meaningful artifact names
+
+✅ Build once
+
+✅ Deploy the same artifact everywhere
+
+---
+
+# Interview Questions
+
+### What is an Artifact?
+
+A build output stored by GitHub Actions for later use.
+
+Examples:
+
+- JAR
+
+- WAR
+
+- ZIP
+
+- HTML Report
+
+---
+
+### Why upload artifacts?
+
+To reuse build outputs across jobs or download them later without rebuilding the application.
+
+---
+
+### Difference between Cache and Artifact?
+
+| Cache | Artifact |
+|--------|----------|
+| Speeds up builds | Stores build outputs |
+| Dependency reuse | Deliverable reuse |
+| Temporary | Downloadable |
+
+---
+
+# Hands-on Exercise
+
+Create a workflow that:
+
+- Creates a folder named `reports`
+- Generates `report.txt`
+- Uploads it as an artifact
+- Downloads it in another job
+
+Observe the artifact in the **Actions** page after the workflow completes.
+
+---
+
+# Chapter 3 Summary
+
+In this chapter you learned:
+
+- Workflow Files
+- YAML Structure
+- Workflow Keywords
+- Jobs
+- Steps
+- run
+- uses
+- Java Maven Pipeline
+- Multiple Jobs
+- Job Dependencies
+- Upload Artifacts
+- Download Artifacts
+- Enterprise Pipelines
+
+---
+
+# Key Takeaways
+
+- Workflows define automation.
+- Jobs organize related tasks.
+- Steps perform individual actions.
+- `uses` runs reusable Actions.
+- Artifacts preserve build outputs.
+- Enterprise pipelines separate Build, Test, Package, and Deploy.
+
+---
+
+# What's Next?
+
+## Chapter 04 – Workflow Events
+
+Topics include:
+
+- Push Events
+- Pull Request Events
+- Scheduled Events
+- Release Events
+- Branch Filters
+- Path Filters
+- Manual Triggers
+- Event Filters
+- Production Event Strategies
