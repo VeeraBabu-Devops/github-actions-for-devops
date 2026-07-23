@@ -142,36 +142,31 @@ Deployment begins.
 
 ---
 
-# Event Lifecycle
+## 🔄 Event Lifecycle
 
 ```mermaid
 flowchart TD
 
-Developer
+A([Developer Action])
 
--->
+B([GitHub Repository])
 
-GitHub Repository
+C([Event Triggered])
 
--->
+D([Workflow Started])
 
-Event Generated
+E([GitHub Runner Created])
 
--->
+F([Jobs Executed])
 
-Workflow Starts
+G([Workflow Completed])
 
--->
-
-Runner Created
-
--->
-
-Jobs Execute
-
--->
-
-Workflow Completed
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
 ```
 
 ---
