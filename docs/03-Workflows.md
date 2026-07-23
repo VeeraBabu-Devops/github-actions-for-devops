@@ -1659,3 +1659,452 @@ We'll build:
 - Dependency Pipelines
 - Production CI Pipeline
 - Complete CI/CD Architecture
+
+---
+
+# 8. Multi-Job Workflow
+
+In real-world CI/CD pipelines, all tasks are **not executed in a single job**.
+
+Instead, the workflow is divided into multiple independent jobs.
+
+For example:
+
+- Build
+- Test
+- Security Scan
+- Package
+- Deploy
+
+Each job performs one responsibility.
+
+---
+
+# Why Multiple Jobs?
+
+Suppose you have a Spring Boot application.
+
+The workflow should:
+
+1. Build the application.
+2. Execute unit tests.
+3. Deploy only if the build succeeds.
+
+Instead of placing everything inside one job, we separate them.
+
+Advantages:
+
+- Easier debugging
+- Better readability
+- Faster execution
+- Independent execution
+
+---
+
+# Multi-Job Architecture
+
+```mermaid
+flowchart LR
+
+Developer
+
+-->
+
+Push
+
+-->
+
+Workflow
+
+-->
+
+Build Job
+
+-->
+
+Test Job
+
+-->
+
+Deploy Job
+```
+
+---
+
+# Example Workflow
+
+```yaml
+name: Multi Job Pipeline
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - run: echo "Building Application"
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Running Unit Tests"
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Deploying Application"
+```
+
+---
+
+# Workflow Execution
+
+```text
+Workflow
+
+│
+
+├── Build
+
+├── Test
+
+└── Deploy
+```
+
+By default, these jobs execute **in parallel**.
+
+---
+
+# Parallel Execution
+
+```mermaid
+flowchart TD
+
+Workflow
+
+-->
+
+Build
+
+Workflow
+
+-->
+
+Test
+
+Workflow
+
+-->
+
+Deploy
+```
+
+GitHub creates separate runners for each job.
+
+---
+
+# Real-World Example
+
+A company develops an online banking application.
+
+The workflow contains:
+
+```
+Build
+
+↓
+
+Unit Test
+
+↓
+
+Security Scan
+
+↓
+
+Docker Build
+
+↓
+
+Deploy
+```
+
+Each task is implemented as an individual job.
+
+---
+
+# 9. Job Dependencies
+
+Sometimes jobs must execute in sequence.
+
+Example:
+
+Deployment should only happen after a successful build.
+
+GitHub provides:
+
+```yaml
+needs:
+```
+
+---
+
+# Dependency Diagram
+
+```mermaid
+flowchart TD
+
+Build
+
+-->
+
+Test
+
+-->
+
+Deploy
+```
+
+---
+
+# Example
+
+```yaml
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Build Successful"
+
+  test:
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Testing"
+
+  deploy:
+
+    needs: test
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Deploying"
+```
+
+---
+
+# Execution Order
+
+```
+Build
+
+↓
+
+Test
+
+↓
+
+Deploy
+```
+
+Unlike parallel execution, each job waits until the previous one completes successfully.
+
+---
+
+# Why Use `needs`?
+
+Without dependencies:
+
+```
+Build
+
+Deploy
+
+Test
+```
+
+Deployment might begin before testing is complete.
+
+With dependencies:
+
+```
+Build
+
+↓
+
+Test
+
+↓
+
+Deploy
+```
+
+The workflow becomes safe and predictable.
+
+---
+
+# Dependency Flow
+
+```mermaid
+flowchart LR
+
+Build --> Test --> Deploy
+```
+
+---
+
+# Real-World Scenario
+
+Your AWS deployment pipeline might look like:
+
+```
+Checkout
+
+↓
+
+Build
+
+↓
+
+Unit Test
+
+↓
+
+SonarQube Scan
+
+↓
+
+Docker Build
+
+↓
+
+Push Docker Image
+
+↓
+
+Deploy to EC2
+```
+
+Each stage depends on the previous one.
+
+---
+
+# Common Mistakes
+
+❌ Deploy before testing
+
+❌ Put everything in one job
+
+❌ Create unnecessary dependencies
+
+❌ Forget `needs`
+
+---
+
+# Best Practices
+
+✅ Separate Build, Test, and Deploy
+
+✅ Use `needs` only when required
+
+✅ Keep jobs independent
+
+✅ Give meaningful job names
+
+---
+
+# Interview Questions
+
+### What is the default execution behavior of jobs?
+
+**Answer:**
+
+Jobs execute in parallel unless dependencies are defined.
+
+---
+
+### How do you execute jobs sequentially?
+
+**Answer:**
+
+Use the `needs` keyword.
+
+Example:
+
+```yaml
+deploy:
+
+  needs: build
+```
+
+---
+
+### Difference Between Job and Step
+
+| Job | Step |
+|------|------|
+| Collection of related tasks | Individual task |
+| Executes on a Runner | Executes inside a Job |
+| Can execute in parallel | Executes sequentially |
+
+---
+
+# Hands-on Exercise
+
+Create a workflow containing:
+
+- Build Job
+- Test Job
+- Deploy Job
+
+Configure:
+
+- Test depends on Build
+- Deploy depends on Test
+
+Run the workflow manually and observe the execution graph in the **Actions** tab.
+
+---
+
+# Key Takeaways
+
+- Large workflows should be split into multiple jobs.
+- Jobs execute in parallel by default.
+- Use `needs` to control execution order.
+- Separating responsibilities makes workflows easier to maintain.
+
+---
+
+# ➡️ Next (Part 6)
+
+We'll learn:
+
+- Upload Artifacts
+- Download Artifacts
+- Build Outputs
+- Production Artifact Workflow
+- Complete Enterprise CI Pipeline
