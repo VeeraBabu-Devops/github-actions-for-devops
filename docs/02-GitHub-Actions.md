@@ -1702,3 +1702,581 @@ We'll cover:
 - Deploy Static Website to Amazon S3
 - Troubleshooting
 - Interview Questions
+
+---
+
+# 15. Workflow Triggers
+
+A **Workflow Trigger** defines **when a GitHub Actions workflow should start**.
+
+Without a trigger, GitHub Actions will never execute the workflow.
+
+Think of a trigger as the **starting point** of automation.
+
+---
+
+# Workflow Trigger Flow
+
+```mermaid
+flowchart LR
+
+Developer --> Push
+
+Developer --> PullRequest
+
+Developer --> Manual
+
+Developer --> Schedule
+
+Push --> Workflow
+
+PullRequest --> Workflow
+
+Manual --> Workflow
+
+Schedule --> Workflow
+
+Workflow --> Runner
+```
+
+---
+
+# Common Workflow Triggers
+
+| Trigger | Description |
+|----------|-------------|
+| push | Executes when code is pushed |
+| pull_request | Executes when a Pull Request is created or updated |
+| workflow_dispatch | Executes manually |
+| schedule | Executes automatically based on a schedule |
+| release | Executes when a release is published |
+
+---
+
+# Push Trigger
+
+The most common trigger.
+
+Whenever a developer pushes code:
+
+```yaml
+on:
+  push:
+```
+
+---
+
+## Push on Specific Branch
+
+```yaml
+on:
+
+  push:
+
+    branches:
+
+      - main
+
+      - develop
+
+      - releases/**
+```
+
+Workflow executes only for these branches.
+
+---
+
+## Real-world Example
+
+Suppose your project has:
+
+```
+main
+
+develop
+
+feature/login
+
+feature/payment
+```
+
+Whenever code is pushed to **main** or **develop**, GitHub automatically starts the CI pipeline.
+
+---
+
+# Pull Request Trigger
+
+Whenever a Pull Request is opened or updated.
+
+```yaml
+on:
+
+  pull_request:
+
+    branches:
+
+      - main
+```
+
+---
+
+## Pull Request Workflow
+
+```text
+Developer
+
+↓
+
+Feature Branch
+
+↓
+
+Push
+
+↓
+
+Pull Request
+
+↓
+
+GitHub Actions
+
+↓
+
+Build
+
+↓
+
+Testing
+
+↓
+
+Review
+```
+
+---
+
+# Pull Request Types
+
+Example:
+
+```yaml
+on:
+
+  pull_request:
+
+    types:
+
+      - opened
+
+      - synchronize
+
+      - reopened
+```
+
+---
+
+# Manual Trigger
+
+Sometimes we don't want workflows to execute automatically.
+
+Instead:
+
+```
+Actions
+
+↓
+
+Run Workflow
+```
+
+Workflow starts manually.
+
+---
+
+Example
+
+```yaml
+on:
+
+  workflow_dispatch:
+```
+
+---
+
+# Scheduled Trigger
+
+GitHub can execute workflows automatically.
+
+Example:
+
+Every day at midnight.
+
+```yaml
+on:
+
+  schedule:
+
+    - cron: '0 0 * * *'
+```
+
+---
+
+## Cron Format
+
+```
+Minute Hour Day Month Weekday
+```
+
+Example
+
+```
+0 0 * * *
+```
+
+Means
+
+Every day
+
+12:00 AM UTC
+
+---
+
+# 16. Repository Variables
+
+Repository Variables store **non-sensitive configuration values**.
+
+Instead of writing:
+
+```yaml
+run: echo "MyCompany"
+```
+
+Use:
+
+```yaml
+env:
+
+  COMPANY: OpenTech
+```
+
+or Repository Variables.
+
+---
+
+## Example
+
+Repository
+
+↓
+
+Settings
+
+↓
+
+Secrets and Variables
+
+↓
+
+Variables
+
+↓
+
+New Repository Variable
+
+```
+NAME : APP_NAME
+
+VALUE : ecommerce-app
+```
+
+---
+
+Use
+
+```yaml
+run: echo ${{ vars.APP_NAME }}
+```
+
+---
+
+# Benefits
+
+- Centralized configuration
+
+- Easy maintenance
+
+- Reusable
+
+---
+
+# 17. GitHub Secrets
+
+Secrets store **sensitive information**.
+
+Examples:
+
+- AWS Access Key
+
+- AWS Secret Key
+
+- Docker Password
+
+- API Keys
+
+- Tokens
+
+---
+
+Never do this:
+
+```yaml
+PASSWORD=admin123
+```
+
+---
+
+Instead
+
+Repository
+
+↓
+
+Settings
+
+↓
+
+Secrets
+
+↓
+
+Actions
+
+↓
+
+New Secret
+
+---
+
+Use
+
+```yaml
+${{ secrets.AWS_ACCESS_KEY_ID }}
+```
+
+---
+
+## Example
+
+```yaml
+steps:
+
+- name: Configure AWS
+
+  uses: aws-actions/configure-aws-credentials@v4
+
+  with:
+
+    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+
+    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    aws-region: us-east-1
+```
+
+---
+
+# Variables vs Secrets
+
+| Variables | Secrets |
+|------------|----------|
+| Non-sensitive | Sensitive |
+| Visible | Encrypted |
+| Configuration | Passwords/API Keys |
+| Editable | Protected |
+
+---
+
+# Common Mistakes
+
+❌ Hardcoding passwords
+
+❌ Storing AWS Keys inside workflow
+
+❌ Committing `.env`
+
+❌ Printing secrets using echo
+
+---
+
+# Best Practices
+
+✅ Store credentials as Secrets
+
+✅ Store configuration as Variables
+
+✅ Rotate credentials regularly
+
+✅ Never expose secrets in logs
+
+---
+
+# Real-world Example
+
+Developer pushes code.
+
+↓
+
+GitHub Actions starts.
+
+↓
+
+Reads AWS credentials from Secrets.
+
+↓
+
+Deploys application to AWS.
+
+↓
+
+Credentials never appear inside workflow.
+
+---
+
+# Interview Questions
+
+## Beginner
+
+What is GitHub Actions?
+
+What is Workflow?
+
+What is Runner?
+
+Difference between Job and Step?
+
+Difference between run and uses?
+
+What is workflow_dispatch?
+
+---
+
+## Intermediate
+
+Difference between Variables and Secrets?
+
+Difference between GitHub Hosted and Self Hosted Runner?
+
+Difference between CI and CD?
+
+What is Checkout Action?
+
+What is needs?
+
+---
+
+## Scenario
+
+A workflow should deploy only after Build succeeds.
+
+How?
+
+Answer:
+
+Use
+
+```yaml
+needs: build
+```
+
+---
+
+# Chapter Summary
+
+In this chapter we learned:
+
+- GitHub Actions
+- CI/CD
+- Workflow
+- Events
+- Runner
+- Jobs
+- Steps
+- Actions
+- Marketplace
+- Hosted Runner
+- Self Hosted Runner
+- Variables
+- Secrets
+- Workflow Triggers
+- Job Dependencies
+
+---
+
+# Key Takeaways
+
+- GitHub Actions automates software delivery.
+
+- Workflow is the automation pipeline.
+
+- Events trigger workflows.
+
+- Runner executes jobs.
+
+- Jobs contain Steps.
+
+- Actions are reusable components.
+
+- Variables store configuration.
+
+- Secrets store sensitive information.
+
+- GitHub Marketplace provides reusable Actions.
+
+---
+
+# Hands-on Exercise
+
+Create a workflow that:
+
+- Runs on Push
+
+- Prints hostname
+
+- Prints current date
+
+- Uses checkout action
+
+- Uses Variables
+
+- Uses Secrets
+
+- Creates Build and Deploy jobs
+
+- Deploy depends on Build
+
+---
+
+# What's Next?
+
+Chapter 03
+
+**GitHub Actions Workflows**
+
+Topics:
+
+- Complete Workflow Syntax
+
+- Production Workflows
+
+- Java CI Pipeline
+
+- NodeJS Pipeline
+
+- Docker Pipeline
+
+- Terraform Pipeline
+
+- AWS Deployment
+
+- Best Practices
