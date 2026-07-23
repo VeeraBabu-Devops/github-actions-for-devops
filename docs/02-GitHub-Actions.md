@@ -1225,3 +1225,480 @@ We'll cover:
 - Running Multiple Jobs
 - Workflow Dependencies
 - Manual Triggers
+
+---
+
+# 8. Actions (`uses`)
+
+## What is an Action?
+
+An **Action** is a reusable automation component that performs a specific task inside a workflow.
+
+Instead of writing lengthy shell scripts for common operations, GitHub provides ready-made Actions that you can use with the `uses` keyword.
+
+Think of an Action as a reusable building block.
+
+---
+
+## Why Use Actions?
+
+Without Actions:
+
+```text
+Write Shell Script
+↓
+
+Clone Repository
+↓
+
+Install Dependencies
+↓
+
+Configure Environment
+↓
+
+Execute Commands
+```
+
+With Actions:
+
+```yaml
+- uses: actions/checkout@v4
+```
+
+One line performs the entire checkout process.
+
+---
+
+## Syntax
+
+```yaml
+steps:
+
+  - uses: actions/checkout@v4
+```
+
+---
+
+## Common GitHub Actions
+
+| Action | Purpose |
+|----------|---------|
+| actions/checkout | Download repository source code |
+| actions/setup-java | Install Java |
+| actions/setup-node | Install Node.js |
+| actions/setup-python | Install Python |
+| aws-actions/configure-aws-credentials | Configure AWS Credentials |
+| docker/login-action | Login to Docker Hub |
+| actions/upload-artifact | Upload Build Artifacts |
+
+---
+
+## Example
+
+```yaml
+steps:
+
+  - name: Checkout Repository
+
+    uses: actions/checkout@v4
+
+  - name: Display Files
+
+    run: ls -la
+```
+
+---
+
+## Real-World Example
+
+A Java application workflow may include:
+
+- Checkout Repository
+- Install Java
+- Build with Maven
+- Run Unit Tests
+- Upload Artifact
+
+Each task can be performed using reusable Actions.
+
+---
+
+## Interview Tip
+
+**Question**
+
+What is the difference between `run` and `uses`?
+
+**Expected Answer**
+
+- `run` executes shell commands.
+- `uses` executes a reusable GitHub Action.
+
+---
+
+# 9. GitHub Marketplace
+
+GitHub Marketplace is a collection of reusable Actions created by GitHub and the community.
+
+Instead of writing automation from scratch, you can use Actions published in the Marketplace.
+
+Popular examples include:
+
+- Checkout Code
+- Configure AWS Credentials
+- Login to Docker Hub
+- Upload Artifacts
+- Slack Notifications
+- Terraform Setup
+
+---
+
+## Benefits
+
+- Saves development time
+- Reusable components
+- Community maintained
+- Official GitHub Actions available
+
+---
+
+# 10. GitHub Hosted Runner vs Self-Hosted Runner
+
+A Runner is the machine that executes your workflow.
+
+GitHub supports two runner types.
+
+---
+
+## GitHub Hosted Runner
+
+GitHub automatically creates a temporary virtual machine.
+
+Workflow
+
+↓
+
+GitHub Creates Runner
+
+↓
+
+Workflow Executes
+
+↓
+
+Runner Deleted
+
+---
+
+### Advantages
+
+- No infrastructure management
+- Automatic updates
+- Fast setup
+- Suitable for most projects
+
+---
+
+## Self-Hosted Runner
+
+A Self-Hosted Runner is a machine managed by you.
+
+Examples:
+
+- AWS EC2
+- Azure Virtual Machine
+- On-Premises Server
+- Local Linux Server
+
+---
+
+### Advantages
+
+- Full control
+- Custom software
+- Access to private networks
+- Better for enterprise environments
+
+---
+
+## Comparison
+
+| GitHub Hosted | Self-Hosted |
+|---------------|-------------|
+| Managed by GitHub | Managed by You |
+| Temporary Runner | Permanent Runner |
+| No Maintenance | Requires Maintenance |
+| Easy Setup | Manual Configuration |
+| Good for Most Projects | Good for Enterprise |
+
+---
+
+# 11. Your First Workflow
+
+Let's create a simple workflow.
+
+Directory:
+
+```text
+.github/workflows/
+```
+
+File:
+
+```text
+hello.yml
+```
+
+---
+
+## Example Workflow
+
+```yaml
+name: First Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  demo:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Print Welcome Message
+
+        run: echo "Welcome to GitHub Actions!"
+```
+
+---
+
+## Execution Flow
+
+Developer
+
+↓
+
+Run Workflow
+
+↓
+
+GitHub Creates Runner
+
+↓
+
+Runner Executes Job
+
+↓
+
+Print Message
+
+↓
+
+Workflow Completed
+
+---
+
+# 12. Running Multiple Jobs
+
+A workflow can contain multiple jobs.
+
+Example:
+
+```yaml
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Building Application"
+
+  testing:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Running Tests"
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Deploying Application"
+```
+
+---
+
+## Default Behavior
+
+Jobs execute in parallel unless dependencies are defined.
+
+---
+
+# 13. Job Dependencies
+
+Sometimes deployment should only happen after a successful build.
+
+Use the `needs` keyword.
+
+---
+
+## Example
+
+```yaml
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Build Completed"
+
+  deploy:
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Deploying..."
+```
+
+---
+
+## Execution
+
+```text
+Build
+
+↓
+
+Deploy
+```
+
+Deployment starts only after the build job succeeds.
+
+---
+
+# 14. Manual Trigger
+
+GitHub allows workflows to be started manually.
+
+Use:
+
+```yaml
+on:
+
+  workflow_dispatch:
+```
+
+---
+
+## Benefits
+
+- Run workflows on demand
+- Test pipelines
+- Deploy manually
+- Execute maintenance tasks
+
+---
+
+## Example
+
+```yaml
+name: Manual Workflow
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  demo:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "Workflow Started Manually"
+```
+
+---
+
+# Best Practices
+
+- Use official Actions whenever possible.
+- Pin Action versions (for example, `@v4`).
+- Use meaningful workflow names.
+- Separate Build, Test, and Deploy into different jobs.
+- Use `needs` for job dependencies.
+- Prefer GitHub Hosted Runners unless specific infrastructure is required.
+
+---
+
+# Common Mistakes
+
+❌ Forgetting `actions/checkout`
+
+❌ Using outdated Action versions
+
+❌ Running deployment without testing
+
+❌ Putting all tasks into one large job
+
+❌ Hardcoding credentials instead of using GitHub Secrets
+
+---
+
+# Hands-on Exercise
+
+Create a workflow that:
+
+1. Starts manually using `workflow_dispatch`.
+2. Prints:
+   - Current date
+   - Hostname
+   - Current user
+3. Creates two jobs:
+   - Build
+   - Test
+4. Make Test depend on Build using `needs`.
+
+---
+
+# Key Takeaways
+
+- Actions are reusable automation components.
+- `uses` executes an Action.
+- `run` executes shell commands.
+- GitHub Marketplace provides reusable Actions.
+- GitHub Hosted Runners are managed by GitHub.
+- Self-Hosted Runners are managed by the user.
+- `needs` creates job dependencies.
+- `workflow_dispatch` enables manual execution.
+
+---
+
+# ➡️ Next (Part 5)
+
+We'll cover:
+
+- Workflow Triggers (`push`, `pull_request`, `schedule`)
+- Repository Variables
+- Secrets
+- Secure Workflows
+- AWS Credentials
+- Deploy Static Website to Amazon S3
+- Troubleshooting
+- Interview Questions
