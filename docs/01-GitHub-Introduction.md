@@ -1214,3 +1214,518 @@ In the next section, we'll cover:
 - Best Practices
 - Interview Questions
 - Chapter Summary
+---
+
+# 16. Pull Request (PR)
+
+## What is a Pull Request?
+
+A **Pull Request (PR)** is a request to merge changes from one branch into another branch.
+
+It allows team members to:
+
+- Review code
+- Discuss changes
+- Suggest improvements
+- Run automated tests
+- Approve or reject changes
+
+A Pull Request is one of the most important collaboration features in GitHub.
+
+---
+
+## Why Do We Use Pull Requests?
+
+Imagine five developers are working on different features.
+
+Instead of directly merging code into the **main** branch, every developer creates a Pull Request.
+
+This ensures:
+
+- Code Quality
+- Team Review
+- Better Collaboration
+- Fewer Bugs
+- Controlled Deployment
+
+---
+
+## Pull Request Workflow
+
+```text
+Feature Branch
+
+      │
+
+git push
+
+      │
+
+Create Pull Request
+
+      │
+
+Code Review
+
+      │
+
+CI Pipeline
+
+      │
+
+Approval
+
+      │
+
+Merge
+
+      │
+
+Main Branch
+```
+
+---
+
+## Best Practices
+
+- Keep Pull Requests small.
+- Add a meaningful title.
+- Write a clear description.
+- Request code review.
+- Ensure all CI checks pass before merging.
+
+---
+
+## Interview Tip
+
+**Question:** What is a Pull Request?
+
+**Answer:**
+
+A Pull Request is a GitHub feature that allows developers to request merging changes from one branch into another after code review and automated validation.
+
+---
+
+# 17. Merge
+
+## What is Merge?
+
+Merging combines changes from one branch into another.
+
+After a Pull Request is approved, the feature branch is merged into the target branch (usually `main`).
+
+---
+
+## Merge Process
+
+```text
+Main Branch
+
+│
+
+├────── Feature Branch
+
+│         │
+
+│         └── New Feature
+
+│
+
+Merge
+
+│
+
+Updated Main Branch
+```
+
+---
+
+## Types of Merge
+
+### Merge Commit
+
+Preserves complete branch history.
+
+---
+
+### Squash Merge
+
+Combines all commits into one.
+
+Useful for keeping history clean.
+
+---
+
+### Rebase Merge
+
+Applies commits one by one without creating a merge commit.
+
+Creates a linear history.
+
+---
+
+## Best Practices
+
+- Merge only after successful testing.
+- Resolve conflicts carefully.
+- Delete merged feature branches.
+
+---
+
+# 18. GitHub Flow
+
+GitHub Flow is a lightweight branching strategy.
+
+It is simple and widely used by development teams.
+
+---
+
+## GitHub Flow Steps
+
+1. Create a Branch
+2. Make Changes
+3. Commit Changes
+4. Push Branch
+5. Open Pull Request
+6. Review Code
+7. Merge
+8. Deploy
+
+---
+
+## GitHub Flow Diagram
+
+```text
+main
+
+ │
+
+ ├──────── Create Feature Branch
+
+ │
+
+ ├──────── Commit Changes
+
+ │
+
+ ├──────── Push
+
+ │
+
+ ├──────── Pull Request
+
+ │
+
+ ├──────── Review
+
+ │
+
+ ├──────── Merge
+
+ │
+
+ └──────── Deploy
+```
+
+---
+
+## Why GitHub Flow?
+
+- Simple
+- Easy to understand
+- Supports Continuous Delivery
+- Ideal for Agile teams
+
+---
+
+# 19. GitHub Products
+
+GitHub has evolved into a complete DevOps platform.
+
+---
+
+## GitHub Actions
+
+Built-in CI/CD automation platform.
+
+Automates:
+
+- Build
+- Test
+- Package
+- Deploy
+
+---
+
+## GitHub Copilot
+
+AI-powered coding assistant.
+
+Helps developers:
+
+- Generate code
+- Explain code
+- Improve productivity
+
+---
+
+## GitHub Packages
+
+Stores:
+
+- Docker Images
+- Maven Packages
+- npm Packages
+
+---
+
+## GitHub Pages
+
+Hosts static websites directly from a GitHub repository.
+
+Useful for:
+
+- Portfolio Websites
+- Documentation
+- Blogs
+
+---
+
+## GitHub Advanced Security
+
+Enterprise security features.
+
+Includes:
+
+- Secret Scanning
+- Code Scanning
+- Dependabot
+- Vulnerability Alerts
+
+---
+
+## GitHub Codespaces
+
+Cloud-based development environment.
+
+Develop directly from your browser.
+
+---
+
+# 20. Real-World DevOps Example
+
+A company develops an online shopping application.
+
+### Development Workflow
+
+```text
+Developer
+
+│
+
+Feature Branch
+
+│
+
+Commit
+
+│
+
+Push
+
+│
+
+GitHub
+
+│
+
+Pull Request
+
+│
+
+Code Review
+
+│
+
+GitHub Actions
+
+│
+
+Build
+
+│
+
+Testing
+
+│
+
+Deployment
+
+│
+
+AWS Cloud
+```
+
+This workflow enables faster releases, better collaboration, and improved software quality.
+
+---
+
+# 21. Best Practices
+
+## Repository
+
+- Use descriptive repository names.
+- Keep the README updated.
+- Add a LICENSE.
+- Organize folders properly.
+
+---
+
+## Branches
+
+- Never work directly on `main`.
+- Create feature branches.
+- Delete merged branches.
+
+---
+
+## Commits
+
+- Write meaningful commit messages.
+- Commit frequently.
+- Keep commits focused.
+
+---
+
+## Pull Requests
+
+- Keep PRs small.
+- Review code carefully.
+- Resolve comments before merging.
+
+---
+
+## Security
+
+- Never commit passwords.
+- Store credentials in GitHub Secrets.
+- Enable branch protection.
+- Enable two-factor authentication.
+
+---
+
+# 22. Chapter Summary
+
+In this chapter, you learned:
+
+- Git Fundamentals
+- GitHub Fundamentals
+- History of GitHub
+- Evolution of GitHub
+- Git vs GitHub
+- Repository
+- Branch
+- Commit
+- Push
+- Pull
+- Clone
+- Fork
+- Pull Request
+- Merge
+- GitHub Flow
+- GitHub Products
+- Best Practices
+
+These concepts are the foundation for understanding GitHub Actions and CI/CD workflows.
+
+---
+
+# 🎤 Interview Questions
+
+### Basic
+
+1. What is Git?
+2. What is GitHub?
+3. What is Version Control?
+4. What is a Repository?
+5. What is a Branch?
+6. What is a Commit?
+7. What is Push?
+8. What is Pull?
+9. What is Clone?
+10. What is Fork?
+
+---
+
+### Intermediate
+
+11. Difference between Git and GitHub?
+12. What is a Pull Request?
+13. Why do we create branches?
+14. Explain GitHub Flow.
+15. Difference between Merge and Rebase?
+16. What is GitHub Actions?
+17. What are GitHub Packages?
+18. What is GitHub Copilot?
+19. What is GitHub Pages?
+20. What is GitHub Advanced Security?
+
+---
+
+### Scenario-Based
+
+**Q1:** A developer accidentally pushes sensitive credentials to GitHub. What should be done?
+
+**Expected Answer:**
+
+- Remove the credentials from the repository.
+- Rotate the compromised credentials.
+- Store secrets using GitHub Secrets.
+- Review repository history if needed.
+- Enable secret scanning for future protection.
+
+---
+
+**Q2:** A feature branch has conflicts with the `main` branch. How would you resolve them?
+
+**Expected Answer:**
+
+- Pull the latest changes from `main`.
+- Resolve merge conflicts locally.
+- Test the application.
+- Commit the resolved changes.
+- Push the updated branch.
+- Complete the Pull Request.
+
+---
+
+# 🔑 Key Takeaways
+
+- Git manages version control.
+- GitHub enables collaboration.
+- Branches support parallel development.
+- Pull Requests improve code quality.
+- GitHub Flow simplifies team workflows.
+- GitHub provides built-in DevOps capabilities.
+- Good Git practices lead to cleaner and more maintainable projects.
+
+---
+
+# 🚀 What's Next?
+
+In **Chapter 02**, we'll begin learning **GitHub Actions**.
+
+Topics include:
+
+- What is GitHub Actions?
+- Why GitHub Actions?
+- CI/CD Concepts
+- GitHub Actions Architecture
+- Workflow Components
+- Events
+- Runners
+- Jobs
+- Steps
+- Actions
+
+By the end of Chapter 2, you'll understand how GitHub Actions automates software delivery and how it fits into a modern DevOps pipeline.
