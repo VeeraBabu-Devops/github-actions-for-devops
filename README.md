@@ -66,6 +66,39 @@ By the end of this repository, you will be able to:
 
 
 ---
+# 📸 Workflow Execution Results
+
+The following screenshots show successful execution of the workflow examples.
+
+| Workflow | Status |
+|----------|--------|
+| Basic Workflows | ✅ |
+| Workflow Events | ✅ |
+| Job Management | ✅ |
+| Build Pipelines | ✅ |
+| AWS Deployment | ✅ |
+
+## Basic Workflow
+
+![Basic Workflow](images/workflow-execution/01-basic-workflow-success.png)
+
+## Workflow Events
+
+![Workflow Events](images/workflow-execution/02-workflow-events-success.png)
+
+## Job Management
+
+![Job Management](images/workflow-execution/03-job-management-success.png)
+
+## Build Pipelines
+
+![Build Pipelines](images/workflow-execution/04-build-pipelines-success.png)
+
+## AWS Deployment
+
+![AWS Deployment](images/workflow-execution/05-aws-deployment-success.png)
+
+---
 
 # 🏗 Repository Structure
 
