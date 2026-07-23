@@ -718,13 +718,14 @@ macos-latest
 ```mermaid
 flowchart LR
 
-Workflow
+A[Workflow]
+B[Runner Created]
+C[Job Executes]
+D[Runner Deleted]
 
---> Runner Created
-
---> Job Executes
-
---> Runner Deleted
+A --> B
+B --> C
+C --> D
 ```
 
 GitHub creates a fresh runner for every workflow execution.
