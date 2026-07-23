@@ -1286,3 +1286,376 @@ We'll build:
 - Job Dependencies
 - Artifact Upload
 - Production CI Workflow
+
+---
+
+# 7. Java Maven CI Pipeline
+
+One of the most common use cases of GitHub Actions is building Java applications using Maven.
+
+Whenever a developer pushes code:
+
+- Source code is downloaded
+- Java is installed
+- Maven dependencies are downloaded
+- Application is compiled
+- Unit tests execute
+- JAR/WAR file is generated
+
+Everything happens automatically.
+
+---
+
+# CI Pipeline Architecture
+
+```mermaid
+flowchart LR
+
+Developer
+
+--> Push
+
+--> GitHub
+
+--> Workflow
+
+--> Checkout
+
+--> Setup Java
+
+--> Maven Build
+
+--> Unit Test
+
+--> Package
+
+--> Success
+```
+
+---
+
+# Complete Java Maven Workflow
+
+```yaml
+name: Java Maven CI
+
+on:
+
+  push:
+
+    branches:
+
+      - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+
+        uses: actions/setup-java@v4
+
+        with:
+
+          distribution: temurin
+
+          java-version: '17'
+
+      - name: Verify Java Version
+
+        run: java -version
+
+      - name: Build Application
+
+        run: mvn clean package
+
+      - name: Run Tests
+
+        run: mvn test
+```
+
+---
+
+# Workflow Explanation
+
+## Step 1
+
+Checkout downloads the repository.
+
+```
+Repository
+
+↓
+
+Runner
+```
+
+---
+
+## Step 2
+
+Setup Java installs Java 17.
+
+```
+Runner
+
+↓
+
+Install Java
+
+↓
+
+JAVA_HOME Configured
+```
+
+---
+
+## Step 3
+
+Verify installation.
+
+```bash
+java -version
+```
+
+---
+
+## Step 4
+
+Compile the application.
+
+```bash
+mvn clean package
+```
+
+This command:
+
+- Cleans previous builds
+- Downloads dependencies
+- Compiles source code
+- Creates a package
+
+---
+
+## Step 5
+
+Execute unit tests.
+
+```bash
+mvn test
+```
+
+---
+
+# Maven Build Flow
+
+```mermaid
+flowchart TD
+
+Checkout
+
+-->
+
+Install Java
+
+-->
+
+Download Dependencies
+
+-->
+
+Compile
+
+-->
+
+Test
+
+-->
+
+Package
+
+-->
+
+Success
+```
+
+---
+
+# Expected Output
+
+```
+BUILD SUCCESS
+```
+
+---
+
+# Real-world Example
+
+Suppose your LMS project uses:
+
+- Java
+- Spring Boot
+- Maven
+
+Whenever developers push code:
+
+GitHub Actions automatically:
+
+- Builds the project
+- Executes unit tests
+- Creates JAR file
+- Uploads artifact
+- Deploys to Tomcat
+
+No manual intervention.
+
+---
+
+# Common Build Commands
+
+```bash
+mvn clean
+
+mvn compile
+
+mvn test
+
+mvn package
+
+mvn install
+```
+
+---
+
+# Build Lifecycle
+
+```text
+Source Code
+
+↓
+
+Compile
+
+↓
+
+Test
+
+↓
+
+Package
+
+↓
+
+Artifact
+```
+
+---
+
+# Common Mistakes
+
+❌ Wrong Java version
+
+❌ Missing pom.xml
+
+❌ Maven not installed
+
+❌ Build before Checkout
+
+❌ Wrong working directory
+
+---
+
+# Best Practices
+
+✅ Use LTS Java version
+
+✅ Run tests before deployment
+
+✅ Keep build and deployment separate
+
+✅ Cache dependencies (advanced topic)
+
+---
+
+# Interview Questions
+
+### Why do we use `actions/setup-java`?
+
+It installs and configures Java on the GitHub Actions runner.
+
+---
+
+### Why execute `mvn test`?
+
+To ensure code quality before deployment.
+
+---
+
+### Difference between
+
+```
+mvn compile
+```
+
+and
+
+```
+mvn package
+```
+
+Expected Answer
+
+Compile creates `.class` files.
+
+Package creates deployable artifacts like JAR or WAR.
+
+---
+
+# Hands-on Exercise
+
+Create a Java Maven workflow that:
+
+- Executes on Push
+- Installs Java 17
+- Runs
+
+```
+mvn clean package
+```
+
+- Executes
+
+```
+mvn test
+```
+
+Observe the logs inside GitHub Actions.
+
+---
+
+# Key Takeaways
+
+- Java is installed using `actions/setup-java`.
+- Maven builds Java applications.
+- Unit testing should always execute before deployment.
+- CI pipelines improve software quality.
+
+---
+
+# ➡️ Next (Part 5)
+
+We'll build:
+
+- Multi-Job Pipeline
+- Upload Artifacts
+- Dependency Pipelines
+- Production CI Pipeline
+- Complete CI/CD Architecture
