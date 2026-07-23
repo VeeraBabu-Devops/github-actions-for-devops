@@ -1,1 +1,40 @@
+# ==============================================================================
+# Workflow Name : Workflow Events
+# Description   : Demonstrates different GitHub Actions events
+# ==============================================================================
 
+name: Workflow Events
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - "src/**"
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 0 * * *"
+
+  release:
+    types:
+      - published
+
+jobs:
+  event-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print Trigger Event
+        run: |
+          echo "Triggered By: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Repository: ${{ github.repository }}"
