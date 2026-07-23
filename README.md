@@ -61,18 +61,9 @@ By the end of this repository, you will be able to:
 | 02 | Introduction to GitHub Actions |
 | 03 | GitHub Actions Architecture |
 | 04 | Workflow |
-| 05 | Events |
-| 06 | Runners |
-| 07 | Jobs |
-| 08 | Steps |
-| 09 | Actions |
-| 10 | Variables |
-| 11 | Secrets |
-| 12 | Workflow Triggers |
-| 13 | Deploy Static Website to Amazon S3 |
-| 14 | Best Practices |
-| 15 | Troubleshooting |
-| 16 | Interview Questions |
+| 05 | Deploy Static Website to Amazon S3 |
+| 06 | Troubleshooting |
+
 
 ---
 
@@ -83,29 +74,20 @@ github-actions-for-devops
 │
 ├── README.md
 │
+├── .github
+|      ├──workflows      
+|
 ├── docs
 │   ├── 01-GitHub-Introduction.md
 │   ├── 02-GitHub-Actions.md
 │   ├── 03-Architecture.md
 │   ├── 04-Workflow.md
-│   ├── 05-Events.md
-│   ├── 06-Runners.md
-│   ├── 07-Jobs.md
-│   ├── 08-Steps.md
-│   ├── 09-Actions.md
-│   ├── 10-Variables.md
-│   ├── 11-Secrets.md
-│   ├── 12-Triggers.md
-│   ├── 13-Deploy-to-S3.md
-│   ├── 14-Best-Practices.md
-│   ├── 15-Troubleshooting.md
-│   └── 16-Interview-Questions.md
+│   ├── 05-Troubleshooting.md
+│   └── 06-Interview-Questions.md
 │
 ├── examples
 │
 ├── images
-│
-└── assets
 ```
 
 ---
