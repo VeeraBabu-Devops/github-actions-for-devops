@@ -1,19 +1,51 @@
-# =====================================================
-# Workflow Name : First Workflow
-# Purpose       : Learn the basic structure of GitHub Actions
-# Trigger       : Manual (workflow_dispatch)
+# ==============================================================================
+# Workflow Name : Basic Workflows
+# Description   : Learn GitHub Actions basic concepts
+# Trigger       : Manual
 # Runner        : Ubuntu Latest
-# =====================================================
+# Level         : Beginner
+# ==============================================================================
 
-name: First Workflow
+name: Basic Workflows
 
 on:
   workflow_dispatch:
 
+env:
+  COMPANY: OpenTech
+  COURSE: GitHub Actions
+
 jobs:
-  demo:
+  hello-world:
+    name: Hello World
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Welcome Message
+      - name: Welcome Message
         run: echo "Welcome to GitHub Actions!"
+
+      - name: Multiple Commands
+        run: |
+          echo "Current Date:"
+          date
+          echo "Current User:"
+          whoami
+
+      - name: Display System Information
+        run: |
+          echo "Working Directory:"
+          pwd
+          echo "Hostname:"
+          hostname
+          echo "Memory:"
+          free -m
+          echo "Disk Usage:"
+          df -h
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Print Environment Variables
+        run: |
+          echo "Company: $COMPANY"
+          echo "Course: $COURSE"
