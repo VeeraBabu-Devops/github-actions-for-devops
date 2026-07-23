@@ -248,6 +248,6 @@ This project is licensed under the MIT License.
 
 ### Happy Learning 🚀
 
-Made with ❤️ for the DevOps Community
+Made with ❤️ by **Veera Babu** for the DevOps Community.
 
 </div>
