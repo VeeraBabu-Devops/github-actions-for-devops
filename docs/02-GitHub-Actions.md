@@ -699,3 +699,529 @@ In the next section, we'll cover:
 - `jobs`
 - `runs-on`
 - `steps`
+
+---
+
+# 5. GitHub Actions Components
+
+GitHub Actions consists of several core components that work together to automate software development workflows.
+
+Understanding these components is essential before writing workflow files.
+
+---
+
+## Core Components
+
+| Component | Description |
+|------------|-------------|
+| Workflow | The complete automation pipeline |
+| Event | Defines when the workflow should run |
+| Runner | Machine that executes the workflow |
+| Job | A group of related tasks |
+| Step | An individual task within a job |
+| Action | A reusable automation component |
+
+---
+
+## Component Relationship
+
+```text
+Workflow
+│
+├── Event
+│
+├── Runner
+│
+├── Job
+│     │
+│     ├── Step
+│     ├── Step
+│     └── Step
+│
+└── Action
+```
+
+---
+
+# 6. Workflow
+
+## What is a Workflow?
+
+A **Workflow** is an automated pipeline that defines the tasks GitHub Actions should execute.
+
+You can think of a Workflow as the equivalent of a Jenkins Pipeline.
+
+| Jenkins | GitHub Actions |
+|----------|----------------|
+| Pipeline | Workflow |
+
+A workflow is written in **YAML** format and stored in:
+
+```text
+.github/workflows/
+```
+
+Example:
+
+```text
+.github/workflows/main.yml
+```
+
+---
+
+## Workflow Structure
+
+Every workflow contains the following sections:
+
+```yaml
+name:
+on:
+env:
+jobs:
+```
+
+---
+
+## Complete Workflow Structure
+
+```text
+Workflow
+│
+├── name
+├── on
+├── env (Optional)
+└── jobs
+      │
+      ├── Job 1
+      │     ├── runs-on
+      │     └── steps
+      │            ├── Step 1
+      │            ├── Step 2
+      │            └── Step 3
+      │
+      └── Job 2
+```
+
+---
+
+## Example Workflow
+
+```yaml
+name: CI Pipeline
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Hello GitHub Actions"
+```
+
+---
+
+# Workflow Lifecycle
+
+```text
+Developer Pushes Code
+
+↓
+
+GitHub Detects Event
+
+↓
+
+Workflow Starts
+
+↓
+
+Runner Created
+
+↓
+
+Job Executes
+
+↓
+
+Steps Execute
+
+↓
+
+Workflow Completed
+```
+
+---
+
+# 7. Workflow Keywords
+
+Let's understand each workflow keyword in detail.
+
+---
+
+# name
+
+## What is `name`?
+
+The `name` keyword provides a human-readable name for the workflow.
+
+This name appears in the **Actions** tab of the repository.
+
+Example:
+
+```yaml
+name: CI Pipeline
+```
+
+---
+
+## Benefits
+
+- Easy identification
+- Better readability
+- Professional workflow names
+
+---
+
+## Best Practice
+
+Use meaningful names.
+
+Good:
+
+```yaml
+name: Build and Deploy
+```
+
+Avoid:
+
+```yaml
+name: Test
+```
+
+---
+
+# on
+
+## What is `on`?
+
+The `on` keyword specifies **when the workflow should run**.
+
+Without an event trigger, the workflow will never execute.
+
+---
+
+## Example
+
+```yaml
+on:
+  push:
+```
+
+Whenever code is pushed to the repository, the workflow starts automatically.
+
+---
+
+## Multiple Events
+
+```yaml
+on:
+  push:
+
+  pull_request:
+
+  workflow_dispatch:
+```
+
+Meaning:
+
+- Push
+- Pull Request
+- Manual Execution
+
+Any one of these events will trigger the workflow.
+
+---
+
+## Common Events
+
+| Event | Description |
+|--------|-------------|
+| push | Trigger on code push |
+| pull_request | Trigger on Pull Request |
+| workflow_dispatch | Manual execution |
+| schedule | Run on a schedule |
+| release | Trigger when a release is published |
+
+---
+
+# env
+
+## What is `env`?
+
+The `env` section defines environment variables that can be used throughout the workflow.
+
+Instead of repeating the same value multiple times, define it once.
+
+---
+
+## Example
+
+```yaml
+env:
+  APP_NAME: ecommerce-app
+  COMPANY: TechCorp
+```
+
+---
+
+## Using Variables
+
+```yaml
+steps:
+  - run: echo $APP_NAME
+```
+
+Output:
+
+```text
+ecommerce-app
+```
+
+---
+
+## Benefits
+
+- Cleaner workflows
+- Easy maintenance
+- Reusable values
+
+---
+
+# jobs
+
+## What are Jobs?
+
+A workflow contains one or more jobs.
+
+Each job performs a logical task.
+
+Examples:
+
+- Build
+- Test
+- Package
+- Deploy
+
+---
+
+## Example
+
+```yaml
+jobs:
+
+  build:
+
+  test:
+
+  deploy:
+```
+
+---
+
+## Job Execution
+
+By default:
+
+Jobs run **in parallel**.
+
+If dependencies are required, use:
+
+```yaml
+needs:
+```
+
+Example:
+
+```yaml
+deploy:
+  needs: build
+```
+
+This ensures the deploy job starts only after the build job completes successfully.
+
+---
+
+# runs-on
+
+## What is `runs-on`?
+
+The `runs-on` keyword specifies the operating system where the job executes.
+
+---
+
+## Example
+
+```yaml
+runs-on: ubuntu-latest
+```
+
+---
+
+## Available Runners
+
+```yaml
+ubuntu-latest
+
+windows-latest
+
+macos-latest
+```
+
+---
+
+## GitHub Hosted Runner
+
+Workflow
+
+↓
+
+GitHub Creates Virtual Machine
+
+↓
+
+Runs Workflow
+
+↓
+
+Deletes Virtual Machine
+
+A new runner is created for each workflow execution.
+
+---
+
+# steps
+
+## What are Steps?
+
+A **Step** is an individual task inside a job.
+
+Examples include:
+
+- Checkout Repository
+- Install Java
+- Build Project
+- Run Tests
+- Deploy Application
+
+Steps execute sequentially.
+
+---
+
+## Example
+
+```yaml
+steps:
+
+  - run: pwd
+
+  - run: ls
+
+  - run: whoami
+```
+
+---
+
+## Multiple Commands
+
+```yaml
+steps:
+
+  - name: System Information
+
+    run: |
+
+      echo "GitHub Actions Demo"
+
+      date
+
+      hostname
+
+      free -m
+
+      df -h
+```
+
+---
+
+## Workflow Execution Example
+
+```text
+Workflow
+
+↓
+
+Build Job
+
+↓
+
+Step 1
+Checkout Code
+
+↓
+
+Step 2
+Install Java
+
+↓
+
+Step 3
+Build
+
+↓
+
+Step 4
+Test
+
+↓
+
+Step 5
+Package
+```
+
+---
+
+# Best Practices
+
+- Give meaningful names to workflows.
+- Use descriptive job names.
+- Keep jobs independent where possible.
+- Store reusable values in `env`.
+- Break large workflows into multiple jobs.
+- Keep steps focused on a single task.
+
+---
+
+# Key Takeaways
+
+- A Workflow is the complete automation pipeline.
+- Events trigger workflows.
+- Runners execute jobs.
+- Jobs contain steps.
+- Steps perform individual tasks.
+- Environment variables improve workflow maintainability.
+
+---
+
+# ➡️ Next (Part 4)
+
+We'll cover:
+
+- Actions (`uses`)
+- GitHub Marketplace
+- GitHub Hosted vs Self-Hosted Runners
+- First Workflow
+- Running Multiple Jobs
+- Workflow Dependencies
+- Manual Triggers
