@@ -41,38 +41,19 @@ After completing this chapter, you will understand:
 
 ```mermaid
 flowchart LR
+    Developer --> Push
+    Developer --> Pull_Request
+    Developer --> Manual
+    Developer --> Release
+    Developer --> Schedule
 
-Developer
+    Push --> Workflow
+    Pull_Request --> Workflow
+    Manual --> Workflow
+    Release --> Workflow
+    Schedule --> Workflow
 
---> Push
-
-Developer
-
---> Pull Request
-
-Developer
-
---> Manual
-
-Developer
-
---> Release
-
-Developer
-
---> Schedule
-
-Push --> Workflow
-
-Pull Request --> Workflow
-
-Manual --> Workflow
-
-Release --> Workflow
-
-Schedule --> Workflow
-
-Workflow --> Runner
+    Workflow --> Runner
 ```
 
 ---
@@ -96,35 +77,13 @@ Whenever these activities occur, GitHub can automatically start a workflow.
 # Event Flow
 
 ```mermaid
-flowchart LR
-
-Developer
-
--->
-
-Repository
-
--->
-
-Event
-
--->
-
-Workflow
-
--->
-
-Runner
-
--->
-
-Jobs
-
--->
-
-Steps
+flowchart TD
+    Developer --> GitHub_Repository
+    GitHub_Repository --> Event
+    Event --> Workflow
+    Workflow --> Runner
+    Runner --> Jobs
 ```
-
 ---
 
 # Common Events
