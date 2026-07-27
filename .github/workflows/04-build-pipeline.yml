@@ -55,6 +55,14 @@ jobs:
         with:
           name: node-build
           path: sample-node-app/dist
+      - name: Build Summary
+        run: |
+          echo "======================================"
+          echo "Build Pipeline Completed Successfully"
+          echo "Application : sample-node-app"
+          echo "Artifact    : node-build"
+          echo "Status      : SUCCESS"
+          echo "======================================"
 
   deploy:
 
