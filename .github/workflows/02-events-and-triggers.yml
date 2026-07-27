@@ -1,0 +1,71 @@
+# ==============================================================================
+# Workflow Name : Workflow Events and Triggers
+# Description   : Demonstrates different GitHub Actions events
+# ==============================================================================
+
+name: 02 - Events and Triggers
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 6 * * 1" # Every Monday at 06:00 UTC
+
+jobs:
+  event-demo:
+    name: Event Demonstration
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Display Trigger Information
+        run: |
+          echo "======================================"
+          echo "GitHub Event Details"
+          echo "======================================"
+          echo "Triggered By : ${{ github.actor }}"
+          echo "Event Name   : ${{ github.event_name }}"
+          echo "Repository   : ${{ github.repository }}"
+          echo "Branch       : ${{ github.ref_name }}"
+          echo "Commit SHA   : ${{ github.sha }}"
+          echo "Run Number   : ${{ github.run_number }}"
+          echo "Workflow     : ${{ github.workflow }}"
+          echo "======================================"
+
+      - name: Event-based Message
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "Code was pushed to the repository."
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "Pull Request workflow triggered."
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Workflow started manually."
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Scheduled workflow execution."
+          else
+            echo "Unknown event."
+          fi
+
+      - name: Repository Information
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo ""
+          echo "Repository Files:"
+          ls -la
+
+      - name: Workflow Completed
+        run: echo "Events and Triggers workflow completed successfully."
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Repository: ${{ github.repository }}"
