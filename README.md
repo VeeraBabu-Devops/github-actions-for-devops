@@ -41,8 +41,6 @@ Unlike most tutorial repositories, this project focuses on **real-world workflow
 
 ---
 
----
-
 # 🛣 Learning Roadmap
 
 ```text
@@ -122,6 +120,46 @@ AWS S3 Deployment
 - ✅ Included workflow execution screenshots
 
 ---
+# 🛠 Technologies Used
+
+- GitHub
+- GitHub Actions
+- YAML
+- Node.js
+- AWS S3
+- CloudFront
+- IAM
+- Linux
+---
+# Architecture Diagram
+```text
+Developer
+
+↓
+
+GitHub Repository
+
+↓
+
+Workflow Trigger
+
+↓
+
+GitHub Hosted Runner
+
+↓
+
+Jobs
+
+↓
+
+Steps
+
+↓
+
+Application
+```
+---
 
 # 📸 Workflow Execution Results
 
@@ -135,6 +173,7 @@ The following screenshots show successful execution of the workflow examples.
 | Build Pipelines | ✅ Success |
 | AWS Deployment | ✅ success |
 
+---
 ## Workflow 01 — GitHub Actions Basics
 
 ![Basic Workflow](images/workflow-execution/01-basic-workflow-success.png)
@@ -160,66 +199,68 @@ The following screenshots show successful execution of the workflow examples.
 # 🏗 Repository Structure
 
 ```
-github-actions-for-devops
+github-actions-for-devops/
 │
-├── README.md
+├── .github/
+│   └── workflows/
+│       ├── 01-basic-workflow.yml
+│       ├── 02-events-and-triggers.yml
+│       ├── 03-job-management.yml
+│       ├── 04-build-pipeline.yml
+│       └── 05-aws-s3-deployment.yml
 │
-├── .github
-|      ├──workflows      
-|
-├── docs
+├── assets/
+│   ├── cheatsheets/
+│   ├── interview/
+│   └── quizzes/
+│
+├── docs/
 │   ├── 01-GitHub-Introduction.md
 │   ├── 02-GitHub-Actions.md
-│   ├── 03-Architecture.md
-│   ├── 04-Workflow.md
-│   ├── 05-Troubleshooting.md
-│   └── 06-Interview-Questions.md
+│   ├── 03-Workflows.md
+│   └── 04-Workflow-Events.md
 │
-├── examples
+├── images/
+│   └── workflow-execution/
 │
-├── images
+├── sample-node-app/
+│
+├── README.md
+├── LICENSE
+└── .gitignore
 ```
 
 ---
 
 # 🚀 What You Will Learn
 
-## GitHub Fundamentals
+## 📘 GitHub Fundamentals
 
-- GitHub
 - Repository
-- Branch
-- Commit
-- Pull Request
-- Merge
+- Branches
+- Commits
+- Pull Requests
 
----
-
-## GitHub Actions
+## ⚙️ GitHub Actions
 
 - Workflow
 - Events
 - Runner
-- Job
-- Step
-- Action
+- Jobs
+- Steps
 
----
-
-## CI/CD
+## 🔄 CI/CD
 
 - Continuous Integration
 - Continuous Delivery
 - Continuous Deployment
 
----
+## ☁️ AWS Deployment
 
-## AWS Deployment
-
-- Configure AWS Credentials
-- Amazon S3 Deployment
-- IAM Secrets
-- Secure Deployments
+- IAM
+- S3
+- CloudFront
+- GitHub Secrets
 
 ---
 
@@ -235,22 +276,15 @@ github-actions-for-devops
 
 ---
 
-# 📂 Example Workflows
+# 📂 Included Workflows
 
-The **examples** folder contains production-ready workflow files.
+This repository includes five production-inspired GitHub Actions workflows:
 
-Examples include:
-
-- Hello World
-- Checkout Repository
-- Variables
-- Secrets
-- Multiple Jobs
-- Job Dependencies
-- Java Build
-- NodeJS Build
-- Docker Build
-- Amazon S3 Deployment
+- 01 – GitHub Actions Basics
+- 02 – Events & Triggers
+- 03 – Job Management
+- 04 – Build Pipeline with Artifacts
+- 05 – AWS S3 Deployment
 
 ---
 
