@@ -3,44 +3,88 @@
 # Description   : Demonstrates jobs, needs, and artifacts
 # ==============================================================================
 
-name: Job Management
+name: 03 - Job Management
 
 on:
   workflow_dispatch:
 
+env:
+  COMPANY: OpenAI Learning
+
 jobs:
 
   build:
+    name: Build Job
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - run: mkdir output
+      - name: Build Application
+        run: |
+          echo "Building application..."
+          echo "Application Name: ${{ vars.APP_NAME }}"
+          echo "Environment: ${{ vars.ENVIRONMENT }}"
+          sleep 3
+          echo "Build completed successfully."
 
-      - run: echo "Build Successful" > output/build.txt
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: build-output
-          path: output/
+    steps:
+      - name: Security Scan
+        run: |
+          echo "Running security scan..."
+          sleep 2
+          echo "No vulnerabilities found."
+
+  lint:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lint Check
+        run: |
+          echo "Checking coding standards..."
+          sleep 2
+          echo "No lint issues."
 
   test:
-    needs: build
+    name: Test Job
+
+    needs:
+      - build
+      - security-scan
+      - lint
+
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "Running Unit Tests"
+      - name: Run Tests
+        run: |
+          echo "Executing test cases..."
+          sleep 3
+          echo "All tests passed."
 
   deploy:
+    name: Deploy Job
+
     needs: test
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: build-output
+      - name: Verify Secret
+        run: |
+          if [ -n "${{ secrets.DEMO_SECRET }}" ]; then
+            echo "Secret is configured."
+          else
+            echo "Secret not found."
+          fi
 
-      - run: cat build.txt
-
-      - run: echo "Deploy Successful"
+      - name: Deploy Application
+        run: |
+          echo "Deploying application..."
+          echo "Company: $COMPANY"
+          echo "Deployment successful."
