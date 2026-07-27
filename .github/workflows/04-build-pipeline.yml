@@ -3,28 +3,32 @@
 # Description   : Java, Node.js, and Python examples
 # ==============================================================================
 
-name: 04 - Build Pipeline
+name: "04 - 📦 Build Pipeline"
 
 on:
   workflow_dispatch:
 
 jobs:
+
   build:
-    name: Build Node.js Application
+
+    name: Build Application
+
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: sample-app
+        working-directory: sample-node-app
 
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: 22
 
       - name: Display Node Version
         run: |
@@ -37,7 +41,7 @@ jobs:
       - name: Run Lint
         run: npm run lint
 
-      - name: Run Tests
+      - name: Run Unit Tests
         run: npm test
 
       - name: Build Application
@@ -50,6 +54,30 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-build
-          path: sample-app/dist
+          path: sample-node-app/dist
 
-      - run: python --version
+  deploy:
+
+    name: Deploy Simulation
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: node-build
+          path: deployment
+
+      - name: Verify Artifact
+        run: |
+          echo "Downloaded files:"
+          ls -R deployment
+
+      - name: Simulate Deployment
+        run: |
+          echo "Deploying application..."
+          echo "Deployment completed successfully."
