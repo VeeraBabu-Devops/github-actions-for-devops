@@ -1,0 +1,10 @@
+{
+  "name": "github-actions-demo",
+  "version": "1.0.0",
+  "description": "Sample Node.js application for GitHub Actions",
+  "scripts": {
+    "lint": "echo \"Lint check passed\"",
+    "test": "echo \"All tests passed\"",
+    "build": "mkdir -p dist && cp index.js dist/index.js"
+  }
+}
