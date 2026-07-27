@@ -2,70 +2,127 @@
 
 # 🚀 GitHub Actions for DevOps
 
-### A Complete Beginner to Advanced Guide to GitHub Actions
+### Learn GitHub Actions from Beginner to Advanced with Real CI/CD Pipelines
 
 <p align="center">
 
-Learn GitHub Actions from scratch with real-world CI/CD pipelines, AWS deployment examples, interview questions, and production-ready workflow examples.
+A practical GitHub Actions repository featuring production-inspired workflows, AWS deployment automation, architecture diagrams, interview preparation, and hands-on examples.
 
 </p>
 
-![GitHub](https://img.shields.io/badge/GitHub-Actions-blue?logo=github)
+<p align="center">
+
+![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-2088FF?logo=githubactions&logoColor=white)
 ![CI/CD](https://img.shields.io/badge/CI/CD-Automation-success)
-![AWS](https://img.shields.io/badge/AWS-Cloud-orange?logo=amazonaws)
-![DevOps](https://img.shields.io/badge/DevOps-Learning-red)
-![License](https://img.shields.io/badge/License-MIT-green)
+![AWS](https://img.shields.io/badge/AWS-S3%20%7C%20CloudFront-orange?logo=amazonaws)
+![YAML](https://img.shields.io/badge/YAML-Workflows-blue)
+![Node.js](https://img.shields.io/badge/Node.js-Build-green?logo=node.js)
+![License](https://img.shields.io/badge/License-MIT-brightgreen)
+
+</p>
 
 </div>
 
 ---
 
-# 📖 About this Repository
+## 📌 Project Overview
 
-This repository is designed to help beginners and DevOps engineers understand **GitHub Actions** from the ground up.
+This repository is a structured learning guide for **GitHub Actions**, covering everything from workflow fundamentals to production-style CI/CD pipelines and AWS deployment.
 
-Instead of only explaining the syntax, this repository focuses on **how GitHub Actions are used in real-world DevOps projects**.
+It is designed for:
 
-Whether you're preparing for interviews, building CI/CD pipelines, or deploying applications to AWS, this guide provides practical examples and best practices.
+- 👨‍💻 DevOps Engineers
+- ☁️ Cloud Engineers
+- 🎓 Students
+- 💼 Interview Preparation
+- 🚀 Anyone learning GitHub Actions
 
----
-
-# 🎯 Learning Objectives
-
-By the end of this repository, you will be able to:
-
-- Understand GitHub Actions Architecture
-- Create GitHub Workflows
-- Build CI Pipelines
-- Build CD Pipelines
-- Configure Runners
-- Work with Jobs & Steps
-- Use GitHub Marketplace Actions
-- Store Secrets Securely
-- Use Repository Variables
-- Deploy Applications Automatically
-- Deploy Static Websites to Amazon S3
-- Build Java Applications
-- Build NodeJS Applications
-- Build Docker Images
-- Understand GitHub Actions Best Practices
-- Prepare for DevOps Interviews
+Unlike most tutorial repositories, this project focuses on **real-world workflow design** rather than isolated YAML examples.
 
 ---
 
-# 📚 Repository Contents
+---
 
-| Chapter | Topic |
-|----------|-------|
-| 01 | GitHub Introduction |
-| 02 | Introduction to GitHub Actions |
-| 03 | GitHub Actions Architecture |
-| 04 | Workflow |
-| 05 | Deploy Static Website to Amazon S3 |
-| 06 | Troubleshooting |
+# 🛣 Learning Roadmap
 
+```text
+GitHub
+    │
+    ▼
+GitHub Actions
+    │
+    ▼
+Workflow
+    │
+    ▼
+Events & Triggers
+    │
+    ▼
+Runner
+    │
+    ▼
+Jobs
+    │
+    ▼
+Steps
+    │
+    ▼
+Marketplace Actions
+    │
+    ▼
+Variables & Secrets
+    │
+    ▼
+Artifacts
+    │
+    ▼
+AWS S3 Deployment
+```
+---
+
+# 🛠 Skills Covered
+
+- GitHub Actions
+- YAML
+- GitHub Hosted Runner
+- Workflow Automation
+- Event Triggers
+- Job Dependencies
+- GitHub Marketplace Actions
+- Environment Variables
+- Repository Variables
+- GitHub Secrets
+- Artifacts
+- Node.js Build Pipeline
+- Amazon S3 Deployment
+- CloudFront Cache Invalidation
+- CI/CD Best Practices
+  
+---
+
+| Workflow | Description           | Concepts Covered                           |
+| -------- | --------------------- | ------------------------------------------ |
+| 01       | GitHub Actions Basics | Workflow, Job, Step, Runner                |
+| 02       | Events & Triggers     | Push, Pull Request, Manual, Schedule       |
+| 03       | Job Management        | Multiple Jobs, `needs`, Variables, Secrets |
+| 04       | Build Pipeline        | Node.js, Build, Artifacts                  |
+| 05       | AWS S3 Deployment     | AWS Credentials, S3, CloudFront            |
 
 ---
+
+# 🌟 Project Highlights
+
+- ✅ Designed 5 production-inspired GitHub Actions workflows
+- ✅ Implemented CI/CD pipeline concepts
+- ✅ Demonstrated multi-job workflow orchestration
+- ✅ Used GitHub Secrets and Repository Variables
+- ✅ Built a Node.js CI pipeline with artifacts
+- ✅ Automated AWS S3 deployment workflow
+- ✅ Created interview-focused documentation
+- ✅ Included workflow execution screenshots
+
+---
+
 # 📸 Workflow Execution Results
 
 The following screenshots show successful execution of the workflow examples.
@@ -76,9 +133,9 @@ The following screenshots show successful execution of the workflow examples.
 | Workflow Events | ✅ Success |
 | Job Management | ✅ Success |
 | Build Pipelines | ✅ Success |
-| AWS Deployment | ✅ Inprogress |
+| AWS Deployment | ✅ success |
 
-## Basic Workflow
+## Workflow 01 — GitHub Actions Basics
 
 ![Basic Workflow](images/workflow-execution/01-basic-workflow-success.png)
 
