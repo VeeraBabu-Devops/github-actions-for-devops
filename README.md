@@ -105,6 +105,7 @@ AWS S3 Deployment
 | 03       | Job Management        | Multiple Jobs, `needs`, Variables, Secrets |
 | 04       | Build Pipeline        | Node.js, Build, Artifacts                  |
 | 05       | AWS S3 Deployment     | AWS Credentials, S3, CloudFront            |
+| 06       | Conditional           | startwit(), success(), failure(), needs    |
 
 ---
 
@@ -172,27 +173,53 @@ The following screenshots show successful execution of the workflow examples.
 | Job Management | ✅ Success |
 | Build Pipelines | ✅ Success |
 | AWS Deployment | ✅ success |
-
+| Conditional | ✅ success |
 ---
 ## Workflow 01 — GitHub Actions Basics
 
 ![Basic Workflow](images/workflow-execution/01-basic-workflow-success.png)
 
-## Workflow Events
+## Workflow 02 — Events
 
 ![Workflow Events](images/workflow-execution/02-workflow-events-success.png)
 
-## Job Management
+## Workflow 03 — Job Management
 
 ![Job Management](images/workflow-execution/03-job-management-success.png)
 
-## Build Pipelines
+## Workflow 04 — Build Pipelines
 
 ![Build Pipelines](images/workflow-execution/04-build-pipelines-success.png)
 
-## AWS Deployment
+## Workflow 05 — AWS Deployment
 
 ![AWS Deployment](images/workflow-execution/05-aws-deployment-success.png)
+
+## Workflow 06 — Conditional Workflow
+
+This workflow demonstrates:
+
+- ✅ Feature branch triggers Static Code Analysis
+- ✅ Develop branch deploys to Development
+- ✅ Main branch deploys to Production
+- ✅ Success notifications using `always()`
+- ✅ Failure notifications using `failure()`
+
+### Feature Branch
+
+![Feature Branch](images/workflow-execution/06-feature-branch-success.png)
+
+### Development Deployment
+
+![Development Deployment](images/workflow-execution/06-develop-deployment-success.png)
+
+### Production Deployment
+
+![Production Deployment](images/workflow-execution/06-production-deployment-success.png)
+
+### Failure Notification
+
+![Failure Notification](images/workflow-execution/06-failure-notification-success.png)
 
 ---
 
@@ -207,7 +234,8 @@ github-actions-for-devops/
 │       ├── 02-events-and-triggers.yml
 │       ├── 03-job-management.yml
 │       ├── 04-build-pipeline.yml
-│       └── 05-aws-s3-deployment.yml
+│       ├── 05-aws-s3-deployment.yml
+|       └── 06-Conditional-Workflow.md
 │
 ├── assets/
 │   ├── cheatsheets/
