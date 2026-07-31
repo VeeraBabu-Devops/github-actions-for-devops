@@ -1,0 +1,101 @@
+name: 06 - Conditional Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/**
+
+jobs:
+
+  ####################################################
+  # Static Code Analysis
+  ####################################################
+  quality_check:
+
+    if: startsWith(github.ref_name, 'feature')
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Static Code Analysis
+        run: |
+          echo "Running Static Code Analysis..."
+          echo "Code Quality Check Completed Successfully."
+
+  ####################################################
+  # Development Deployment
+  ####################################################
+  dev_deploy:
+
+    if: github.ref_name == 'develop'
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy to Development
+        run: |
+          echo "Deploying application to Development Environment..."
+
+  ####################################################
+  # Production Deployment
+  ####################################################
+  prod_deploy:
+
+    if: github.ref_name == 'main'
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy to Production
+        run: |
+          echo "Deploying application to Production Environment..."
+
+  ####################################################
+  # Success Notification
+  ####################################################
+  success_notification:
+
+    needs:
+      - quality_check
+      - dev_deploy
+      - prod_deploy
+
+    if: always() && !failure()
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Notify Success
+        run: |
+          echo "Pipeline completed successfully."
+          echo "Success notification sent."
+
+  ####################################################
+  # Failure Notification
+  ####################################################
+  failure_notification:
+
+    needs:
+      - quality_check
+      - dev_deploy
+      - prod_deploy
+
+    if: failure()
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Notify Failure
+        run: |
+          echo "Pipeline failed."
+          echo "Failure notification sent."
