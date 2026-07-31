@@ -26,8 +26,8 @@ jobs:
       - name: Static Code Analysis
         run: |
           echo "Running Static Code Analysis..."
-          echo "Code Quality Check Completed Successfully."
-
+          exit 1
+          
   ####################################################
   # Development Deployment
   ####################################################
